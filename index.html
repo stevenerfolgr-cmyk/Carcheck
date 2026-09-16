@@ -2,106 +2,89 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0b0d12">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080a0f">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>CarCheck – Auto-Kaufcheck</title>
+<title>CarCheck – Auto prüfen</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#0b0d12;color:#f5f7fb}
-.container{max-width:900px;margin:auto;padding:24px}
-nav{display:flex;justify-content:space-between;align-items:center;padding:8px 0 35px}
-.logo{font-size:25px;font-weight:800;letter-spacing:-1px}.logo span{color:#4f8cff}
-.badge{font-size:12px;background:#171b24;border:1px solid #272d39;padding:8px 12px;border-radius:20px;color:#b9c1d0}
-.hero{padding:45px 0 35px}.hero h1{font-size:clamp(42px,8vw,76px);line-height:.98;letter-spacing:-3px;margin:0 0 20px}
-.hero h1 span{color:#4f8cff}.hero p{font-size:18px;line-height:1.6;color:#aab2c0;max-width:620px}
-button{border:0;cursor:pointer;font-size:16px;font-weight:700;border-radius:14px;padding:15px 20px}
-.primary{background:#4f8cff;color:white;box-shadow:0 8px 30px #4f8cff33}.primary:hover{filter:brightness(1.08)}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:35px}.card{background:#12151d;border:1px solid #222834;border-radius:18px;padding:20px}.icon{font-size:25px}.card h3{margin:13px 0 8px}.card p{color:#8f98a8;line-height:1.5;margin:0;font-size:14px}
-.panel{margin-top:35px;background:#11141b;border:1px solid #242a36;border-radius:22px;padding:25px}.panel h2{margin-top:0}
-.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{font-size:13px;color:#aab2c0}input,select{width:100%;margin-top:7px;padding:14px;border-radius:12px;border:1px solid #2a303c;background:#0b0d12;color:#fff;font-size:16px}input:focus,select:focus{outline:2px solid #4f8cff55;border-color:#4f8cff}
-.full{grid-column:1/-1}.actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}.secondary{background:#1b202a;color:#e8ebf2}
-#result{display:none;margin-top:22px}.score{font-size:48px;font-weight:800}.good{color:#48d597}.mid{color:#ffc857}.bad{color:#ff6b6b}
-.resultbox{background:#0b0d12;border-radius:16px;padding:18px;margin-top:14px}.resultbox ul{padding-left:20px;color:#b9c1d0;line-height:1.8}
-footer{color:#687182;text-align:center;padding:50px 0 20px;font-size:12px}
-@media(max-width:650px){.cards{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.hero h1{letter-spacing:-2px}.container{padding:18px}}
+:root{--bg:#080a0f;--panel:#11151e;--line:#262d3a;--text:#f5f7fb;--muted:#9da6b6;--blue:#4d8dff;--green:#3dd598;--yellow:#ffc857;--red:#ff6b6b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 80% 0,#17294a 0,transparent 34%),var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
+.container{max-width:900px;margin:auto;padding:20px 20px 50px}.top{display:flex;align-items:center;justify-content:space-between;padding:8px 0 35px}
+.logo{font-size:25px;font-weight:850}.logo b{color:var(--blue)}.beta{font-size:12px;color:#b9c3d3;background:#121722;border:1px solid var(--line);padding:8px 11px;border-radius:999px}
+.back{border:0;background:transparent;color:var(--muted);font-size:15px;padding:0;margin-bottom:25px;cursor:pointer}
+.hero h1{font-size:clamp(38px,7vw,64px);line-height:.98;letter-spacing:-2.7px;margin:0 0 15px}.hero h1 span{color:var(--blue)}.hero p{color:var(--muted);font-size:17px;line-height:1.55;max-width:650px;margin:0 0 28px}
+.steps{display:flex;gap:8px;margin:25px 0 18px}.step{height:5px;flex:1;background:#252b36;border-radius:9px}.step.active{background:var(--blue)}
+.card{background:rgba(17,21,30,.94);border:1px solid var(--line);border-radius:24px;padding:22px;margin-top:16px;box-shadow:0 18px 50px #0004}.card h2{margin:0 0 5px;font-size:22px}.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field label{display:block;color:#cbd2de;font-size:13px;font-weight:650}.field input,.field select{width:100%;margin-top:7px;background:#0a0d13;color:var(--text);border:1px solid #2b3341;border-radius:13px;padding:14px;font-size:16px;outline:none}.field input:focus,.field select:focus{border-color:var(--blue);box-shadow:0 0 0 3px #4d8dff22}.full{grid-column:1/-1}
+.actions{display:flex;gap:10px;margin-top:20px}.btn{border:0;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:750;cursor:pointer}.primary{background:var(--blue);color:white;flex:1}.secondary{background:#1b212c;color:#dce2eb}
+.result{display:none}.scoreWrap{display:flex;align-items:center;gap:18px}.score{width:88px;height:88px;border-radius:50%;display:grid;place-items:center;font-size:24px;font-weight:850;border:6px solid var(--blue)}.score.green{border-color:var(--green)}.score.yellow{border-color:var(--yellow)}.score.red{border-color:var(--red)}.rating{font-size:24px;font-weight:800}.tiny{font-size:13px;color:var(--muted);margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.stat{background:#0b0e14;border:1px solid #222936;border-radius:14px;padding:13px}.stat small{display:block;color:#7f899a;font-size:11px}.stat strong{display:block;margin-top:5px;font-size:15px}
+.notice{margin-top:14px;border-radius:15px;padding:15px;background:#0b0e14;border:1px solid #242b37}.notice h3{margin:0 0 9px;font-size:15px}.notice ul{margin:0;padding-left:20px;color:#b7c0ce;line-height:1.7;font-size:14px}.tip{color:#aeb7c6;line-height:1.6;font-size:14px}
+footer{text-align:center;color:#687283;font-size:12px;margin-top:35px;line-height:1.5}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.stats{grid-template-columns:1fr 1fr}.hero h1{letter-spacing:-2px}.actions{flex-direction:column}}
 </style>
 </head>
 <body>
 <div class="container">
-<nav><div class="logo">Car<span>Check</span></div><div class="badge">Beta · kostenlos</div></nav>
+<header class="top"><div class="logo">Car<b>Check</b></div><div class="beta">BETA · kostenlos</div></header>
+<button class="back" onclick="history.back()">← Zurück</button>
+<section class="hero"><h1>Prüfe dein Auto<br><span>vor dem Kauf.</span></h1><p>Gib die wichtigsten Fahrzeugdaten ein. CarCheck erstellt daraus einen übersichtlichen ersten Kauf-Check mit möglichen Warnzeichen.</p></section>
+<div class="steps"><div class="step active"></div><div class="step"></div><div class="step"></div></div>
 
-<section class="hero">
-<h1>Kauf dein Auto<br><span>mit mehr Sicherheit.</span></h1>
-<p>CarCheck hilft dir dabei, einen Gebrauchtwagen schnell einzuschätzen – Kaufpreis, Laufleistung, Motorisierung und mögliche Warnzeichen auf einen Blick.</p>
-<button class="primary" onclick="document.getElementById('check').scrollIntoView({behavior:'smooth'})">Auto prüfen →</button>
+<section class="card">
+<h2>Fahrzeugdaten</h2><p class="sub">Je genauer die Angaben, desto sinnvoller der erste Check.</p>
+<div class="grid">
+<div class="field"><label>Marke</label><input id="brand" placeholder="z. B. BMW"></div>
+<div class="field"><label>Modell</label><input id="model" placeholder="z. B. 320d"></div>
+<div class="field"><label>Baujahr</label><input id="year" type="number" inputmode="numeric" placeholder="z. B. 2019"></div>
+<div class="field"><label>Kilometerstand</label><input id="km" type="number" inputmode="numeric" placeholder="z. B. 118000"></div>
+<div class="field"><label>Kaufpreis in €</label><input id="price" type="number" inputmode="decimal" placeholder="z. B. 15900"></div>
+<div class="field"><label>Leistung in PS</label><input id="hp" type="number" inputmode="numeric" placeholder="z. B. 190"></div>
+<div class="field"><label>Kraftstoff</label><select id="fuel"><option>Benzin</option><option>Diesel</option><option>Hybrid</option><option>Elektro</option></select></div>
+<div class="field"><label>Getriebe</label><select id="gear"><option>Automatik</option><option>Manuell</option></select></div>
+<div class="field full"><label>Zusätzliche Angaben (optional)</label><input id="notes" placeholder="z. B. 2. Hand, Scheckheft, Unfallfrei"></div>
+</div>
+<div class="actions"><button class="btn primary" onclick="checkCar()">🔎 Fahrzeug prüfen</button><button class="btn secondary" onclick="clearAll()">Löschen</button></div>
 </section>
 
-<div class="cards">
-<div class="card"><div class="icon">🔎</div><h3>Auto prüfen</h3><p>Fahrzeugdaten eingeben und direkt einen ersten Kauf-Check erhalten.</p></div>
-<div class="card"><div class="icon">💶</div><h3>Kosten im Blick</h3><p>Behalte Kaufpreis und wichtige Fahrzeugdaten übersichtlich zusammen.</p></div>
-<div class="card"><div class="icon">⚠️</div><h3>Warnzeichen</h3><p>CarCheck weist dich auf auffällige Kilometerstände und andere Faktoren hin.</p></div>
+<section class="card result" id="result">
+<h2>Dein CarCheck</h2><p class="sub" id="vehicleName"></p>
+<div class="scoreWrap"><div class="score" id="score">--</div><div><div class="rating" id="rating">Analyse</div><div class="tiny">Vorläufige Einschätzung anhand deiner Angaben</div></div></div>
+<div class="stats">
+<div class="stat"><small>PREIS</small><strong id="rPrice">–</strong></div><div class="stat"><small>LAUFLEISTUNG</small><strong id="rKm">–</strong></div><div class="stat"><small>LEISTUNG</small><strong id="rHp">–</strong></div>
+<div class="stat"><small>BAUJAHR</small><strong id="rYear">–</strong></div><div class="stat"><small>KRAFTSTOFF</small><strong id="rFuel">–</strong></div><div class="stat"><small>GETRIEBE</small><strong id="rGear">–</strong></div>
 </div>
-
-<section class="panel" id="check">
-<h2>Fahrzeug prüfen</h2>
-<p style="color:#8f98a8">Trage die Daten des Autos ein.</p>
-<div class="formgrid">
-<label>Marke<input id="brand" placeholder="z. B. BMW"></label>
-<label>Modell<input id="model" placeholder="z. B. 320d"></label>
-<label>Baujahr<input id="year" type="number" placeholder="z. B. 2018"></label>
-<label>Kilometerstand<input id="km" type="number" placeholder="z. B. 120000"></label>
-<label>Kaufpreis (€)<input id="price" type="number" placeholder="z. B. 15900"></label>
-<label>Leistung (PS)<input id="hp" type="number" placeholder="z. B. 190"></label>
-<label>Kraftstoff<select id="fuel"><option>Benzin</option><option>Diesel</option><option>Hybrid</option><option>Elektro</option></select></label>
-<label>Getriebe<select id="gear"><option>Automatik</option><option>Manuell</option></select></label>
-</div>
-<div class="actions"><button class="primary" onclick="analyse()">Fahrzeug analysieren</button><button class="secondary" onclick="resetForm()">Zurücksetzen</button></div>
-
-<div id="result">
-<div class="resultbox">
-<div style="color:#8f98a8;font-size:13px">CARCHECK ERGEBNIS</div>
-<div id="title" style="font-size:25px;font-weight:750;margin:6px 0"></div>
-<div id="score" class="score"></div>
-<div id="summary" style="color:#aab2c0;line-height:1.5"></div>
-</div>
-<div class="resultbox"><b>⚠️ Hinweise</b><ul id="warnings"></ul></div>
-<div class="resultbox"><b>📋 Nächster Schritt</b><p id="next" style="color:#aab2c0;line-height:1.6"></p></div>
-</div>
+<div class="notice"><h3>⚠️ Darauf solltest du achten</h3><ul id="warnings"></ul></div>
+<div class="notice"><h3>📋 Vor dem Kauf</h3><p class="tip" id="next"></p></div>
 </section>
-
-<footer>CarCheck · Prototyp · Die Analyse ersetzt keine technische Fahrzeugprüfung.</footer>
+<footer>CarCheck ist ein Prototyp. Die Einschätzung ersetzt keine Probefahrt, Werkstattprüfung oder technische Prüfung.</footer>
 </div>
 
 <script>
-function analyse(){
- const brand=document.getElementById('brand').value.trim()||'Unbekannt';
- const model=document.getElementById('model').value.trim()||'Fahrzeug';
- const year=+document.getElementById('year').value;
- const km=+document.getElementById('km').value;
- const price=+document.getElementById('price').value;
- const hp=+document.getElementById('hp').value;
- let points=0,w=[];
- if(km>=180000){points+=2;w.push('Hoher Kilometerstand – Wartung und Verschleißteile besonders prüfen.')}
- else if(km>=120000){points+=1;w.push('Mittlerer bis hoher Kilometerstand – Servicehistorie genau prüfen.')}
- if(year && year<2015){points+=1;w.push('Älteres Baujahr – Zustand und Reparaturhistorie sind besonders wichtig.')}
- if(price>0 && price<4000){points+=1;w.push('Sehr niedriger Kaufpreis – Unfall-, Rost- und Wartungshistorie sorgfältig prüfen.')}
- if(hp>=250){w.push('Hohe Leistung – Versicherung, Reifen, Bremsen und laufende Kosten können höher ausfallen.')}
- let rating=points>=3?'Erhöhtes Risiko':points>=1?'Genauer prüfen':'Guter erster Eindruck';
- let cls=points>=3?'bad':points>=1?'mid':'good';
- document.getElementById('title').textContent=brand+' '+model;
- document.getElementById('score').textContent=rating;
- document.getElementById('score').className='score '+cls;
- document.getElementById('summary').textContent=
-  `${price?price.toLocaleString('de-DE')+' €':'Preis unbekannt'} · ${km?km.toLocaleString('de-DE')+' km':'Kilometer unbekannt'} · ${hp?hp+' PS':'Leistung unbekannt'} · ${document.getElementById('fuel').value}`;
- const ul=document.getElementById('warnings');ul.innerHTML='';
- if(!w.length)w.push('Keine auffälligen Punkte anhand der eingegebenen Basisdaten.');
- w.forEach(x=>{let li=document.createElement('li');li.textContent=x;ul.appendChild(li)});
- document.getElementById('next').textContent=points>=2?'Vor dem Kauf: Serviceheft, HU-Berichte, Rechnungen, Unfallfreiheit und eine unabhängige Probefahrt bzw. Prüfung kontrollieren.':'Vor dem Kauf trotzdem Servicehistorie, HU-Berichte, Rechnungen und Fahrzeugzustand kontrollieren.';
- document.getElementById('result').style.display='block';
- document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+const money=n=>n?Number(n).toLocaleString('de-DE')+' €':'–';
+const number=n=>n?Number(n).toLocaleString('de-DE'):'–';
+function checkCar(){
+ const brand=document.getElementById('brand').value.trim()||'Unbekannte Marke',model=document.getElementById('model').value.trim()||'Unbekanntes Modell';
+ const year=Number(document.getElementById('year').value),km=Number(document.getElementById('km').value),price=Number(document.getElementById('price').value),hp=Number(document.getElementById('hp').value);
+ const fuel=document.getElementById('fuel').value,gear=document.getElementById('gear').value,notes=document.getElementById('notes').value.trim();
+ let risk=0,w=[];
+ if(km>=200000){risk+=3;w.push('Sehr hoher Kilometerstand. Verschleißteile, Wartungsnachweise und Reparaturhistorie besonders genau prüfen.')}
+ else if(km>=150000){risk+=2;w.push('Hoher Kilometerstand. Prüfe Servicehistorie, Getriebe, Fahrwerk und Bremsen.')}
+ else if(km>=100000){risk++;w.push('Die Laufleistung ist nicht ungewöhnlich, aber Wartungsnachweise werden zunehmend wichtig.')}
+ if(year&&year<=2014){risk++;w.push('Älteres Baujahr: Rost, Dichtungen, Fahrwerk, Elektronik und HU-Berichte genauer kontrollieren.')}
+ if(price>0&&price<5000){risk++;w.push('Sehr niedriger Kaufpreis: Unfall-, Rost- und Reparaturhistorie besonders sorgfältig prüfen.')}
+ if(hp>=250)w.push('Hohe Leistung kann höhere Kosten für Versicherung, Reifen, Bremsen und Wartung bedeuten.');
+ if(fuel==='Diesel'&&km<10000)w.push('Bei sehr geringer Jahresfahrleistung Nutzung und Kurzstreckenanteil besonders prüfen.');
+ if(notes.toLowerCase().includes('unfall')){risk++;w.push('Unfallhinweis vorhanden. Schadenumfang, Rechnungen und Reparaturqualität prüfen.')}
+ const score=Math.max(35,100-risk*15),rating=score>=85?'Wenig auffällig':score>=65?'Genauer prüfen':'Erhöhte Aufmerksamkeit',cls=score>=85?'green':score>=65?'yellow':'red';
+ document.getElementById('vehicleName').textContent=brand+' '+model;document.getElementById('score').textContent=score;document.getElementById('score').className='score '+cls;document.getElementById('rating').textContent=rating;
+ document.getElementById('rPrice').textContent=money(price);document.getElementById('rKm').textContent=km?number(km)+' km':'–';document.getElementById('rHp').textContent=hp?hp+' PS':'–';document.getElementById('rYear').textContent=year||'–';document.getElementById('rFuel').textContent=fuel;document.getElementById('rGear').textContent=gear;
+ if(!w.length)w.push('Keine auffälligen Punkte auf Basis der eingegebenen Basisdaten.');
+ const ul=document.getElementById('warnings');ul.innerHTML='';w.forEach(x=>{const li=document.createElement('li');li.textContent=x;ul.appendChild(li)});
+ document.getElementById('next').textContent='Vor einer Kaufentscheidung: Fahrzeugpapiere und VIN/FIN abgleichen, Serviceheft und Rechnungen prüfen, HU-Berichte ansehen, Kaltstart und Probefahrt durchführen und bei einem teureren Kauf eine unabhängige Fahrzeugprüfung erwägen.';
+ document.getElementById('result').style.display='block';document.querySelector('.steps').children[1].classList.add('active');document.getElementById('result').scrollIntoView({behavior:'smooth'});
 }
-function resetForm(){document.querySelectorAll('input').forEach(x=>x.value='');document.getElementById('result').style.display='none'}
+function clearAll(){document.querySelectorAll('input').forEach(i=>i.value='');document.getElementById('fuel').selectedIndex=0;document.getElementById('gear').selectedIndex=0;document.getElementById('result').style.display='none';document.querySelector('.steps').children[1].classList.remove('active')}
 </script>
 </body>
 </html>
