@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CarCheck – Dein Auto finden</title>
-<meta name="description" content="CarCheck erstellt aus deinen Wünschen eine echte AutoScout24-Fahrzeugsuche.">
+<title>CarCheck – Wunschauto finden</title>
+<meta name="description" content="CarCheck – Auto nach deinen Kriterien suchen.">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Arial,sans-serif;background:#f5f5f7;color:#111}
-header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid #ddd}
-.nav{max-width:1050px;margin:auto;padding:18px 22px;display:flex;justify-content:space-between;align-items:center}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(20px);border-bottom:1px solid #ddd}
+.nav{max-width:1050px;margin:auto;padding:17px 22px;display:flex;justify-content:space-between;align-items:center}
 .logo{font-size:24px;font-weight:800}.beta{background:#111;color:#fff;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:700;margin-left:7px}
-.hero{max-width:950px;margin:auto;padding:65px 22px 35px;text-align:center}
+.hero{max-width:950px;margin:auto;padding:58px 22px 30px;text-align:center}
 .hero h1{font-size:clamp(40px,8vw,70px);line-height:1;letter-spacing:-3px}
 .hero h1 span{background:linear-gradient(90deg,#007aff,#5856d6);-webkit-background-clip:text;color:transparent}
-.hero p{max-width:650px;margin:22px auto 0;color:#666;font-size:18px;line-height:1.55}
+.hero p{max-width:650px;margin:20px auto 0;color:#666;font-size:18px;line-height:1.55}
 .container{max-width:1000px;margin:auto;padding:20px 22px 70px}
 .card{background:#fff;border-radius:25px;padding:28px;margin-bottom:24px;box-shadow:0 10px 35px rgba(0,0,0,.06)}
 .card h2{font-size:25px;margin-bottom:8px}.subtitle{color:#777;line-height:1.5;margin-bottom:24px}
@@ -22,85 +22,305 @@ header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdro
 label{font-size:14px;font-weight:700}
 input,select{width:100%;padding:15px;border:1px solid #d8d8dc;border-radius:13px;background:#fff;font-size:16px;outline:none}
 input:focus,select:focus{border-color:#007aff;box-shadow:0 0 0 3px rgba(0,122,255,.12)}
+.brand-wrap{position:relative}
+.brand-input-row{display:flex;gap:9px}
+.brand-input-row input{flex:1}
+.any-btn{border:1px solid #d8d8dc;background:#f5f5f7;border-radius:13px;padding:0 16px;font-weight:700;cursor:pointer;white-space:nowrap}
+.any-btn.active{background:#111;color:#fff;border-color:#111}
+.suggestions{display:none;position:absolute;left:0;right:0;top:76px;background:#fff;border:1px solid #ddd;border-radius:15px;box-shadow:0 12px 30px rgba(0,0,0,.13);z-index:30;max-height:280px;overflow:auto;padding:7px}
+.suggestion{display:block;width:100%;border:0;background:#fff;text-align:left;padding:11px 12px;border-radius:10px;font-size:15px;cursor:pointer}
+.suggestion:hover{background:#f1f1f3}
+.suggestion strong{font-weight:750}
 .search{width:100%;border:0;border-radius:15px;padding:17px;margin-top:22px;background:#007aff;color:#fff;font-size:17px;font-weight:700;cursor:pointer}
 .search:hover{background:#006ee6}.reset{width:100%;border:1px solid #ddd;border-radius:15px;padding:15px;margin-top:12px;background:#fff;font-size:16px;font-weight:650;cursor:pointer}
 .result{display:none}.result-box{background:#f5f5f7;border-radius:18px;padding:22px;margin-top:18px}.result-box h3{font-size:21px;margin-bottom:10px}
 .result-box p{color:#666;line-height:1.5;margin-bottom:18px}.open{display:block;text-align:center;text-decoration:none;background:#111;color:#fff;padding:15px;border-radius:13px;font-weight:700}
 .criteria{display:flex;flex-wrap:wrap;gap:8px;margin:15px 0}.tag{background:#fff;border:1px solid #ddd;border-radius:10px;padding:8px 10px;font-size:13px}
+.notice{margin-top:18px;padding:15px;border-radius:14px;background:#f0f6ff;color:#315b8c;font-size:13px;line-height:1.5}
 .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.info{background:#fff;border-radius:20px;padding:22px;box-shadow:0 8px 25px rgba(0,0,0,.04)}
 .icon{font-size:28px;margin-bottom:12px}.info h3{margin-bottom:7px}.info p{color:#777;font-size:14px;line-height:1.5}
-.notice{margin-top:18px;padding:15px;border-radius:14px;background:#f0f6ff;color:#315b8c;font-size:13px;line-height:1.5}
 footer{text-align:center;color:#888;padding:30px 20px 50px;font-size:13px}
-@media(max-width:700px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.info-grid{grid-template-columns:1fr}.card{padding:20px;border-radius:20px}.hero{padding-top:45px}}
+@media(max-width:700px){
+.grid{grid-template-columns:1fr}.full{grid-column:auto}.info-grid{grid-template-columns:1fr}
+.card{padding:20px;border-radius:20px}.hero{padding-top:45px}.brand-input-row{flex-direction:column}
+.any-btn{height:48px}
+.suggestions{top:124px}
+}
 </style>
 </head>
 <body>
-<header><div class="nav"><div><span class="logo">CarCheck</span><span class="beta">BETA · kostenlos</span></div></div></header>
+
+<header>
+<div class="nav">
+<div><span class="logo">CarCheck</span><span class="beta">BETA · kostenlos</span></div>
+</div>
+</header>
 
 <section class="hero">
 <h1>Finde dein<br><span>passendes Auto.</span></h1>
-<p>Gib deine Wünsche ein und CarCheck erstellt daraus eine echte Fahrzeugsuche bei AutoScout24.</p>
+<p>Wähle deine Automarke oder „Beliebig“ und gib anschließend deine Wunschkriterien ein.</p>
 </section>
 
 <main class="container">
+
 <section class="card">
 <h2>🚗 Dein Wunschauto</h2>
-<p class="subtitle">Je genauer deine Angaben sind, desto genauer wird deine Suche.</p>
+<p class="subtitle">Du kannst die Marke aus einer großen Liste auswählen oder einfach danach suchen.</p>
 
 <div class="grid">
+
+<div class="field full">
+<label for="brandSearch">Automarke</label>
+<div class="brand-wrap">
+<div class="brand-input-row">
+<input id="brandSearch" type="text" autocomplete="off" placeholder="Marke suchen, z. B. BMW, Audi oder Toyota">
+<button class="any-btn" id="anyButton" type="button" onclick="selectAny()">Beliebig</button>
+</div>
+<div class="suggestions" id="suggestions"></div>
+</div>
+</div>
+
 <div class="field"><label for="price">Maximales Budget (€)</label><input id="price" type="number" placeholder="z. B. 15000"></div>
 <div class="field"><label for="power">Mindestens PS</label><input id="power" type="number" placeholder="z. B. 200"></div>
 <div class="field"><label for="year">Baujahr ab</label><input id="year" type="number" placeholder="z. B. 2015"></div>
 <div class="field"><label for="mileage">Max. Kilometer</label><input id="mileage" type="number" placeholder="z. B. 150000"></div>
-<div class="field"><label for="brand">Marke</label><input id="brand" type="text" placeholder="z. B. BMW"></div>
-<div class="field"><label for="fuel">Kraftstoff</label><select id="fuel"><option value="">Egal</option><option value="Benzin">Benzin</option><option value="Diesel">Diesel</option><option value="Hybrid">Hybrid</option><option value="Elektro">Elektro</option></select></div>
-<div class="field"><label for="gearbox">Getriebe</label><select id="gearbox"><option value="">Egal</option><option value="Automatik">Automatik</option><option value="Manuell">Manuell</option></select></div>
-<div class="field"><label for="body">Fahrzeugtyp</label><select id="body"><option value="">Egal</option><option value="Coupé">Coupé</option><option value="Limousine">Limousine</option><option value="Kombi">Kombi</option><option value="SUV">SUV</option><option value="Sportwagen">Sportwagen</option><option value="Kleinwagen">Kleinwagen</option></select></div>
-<div class="field full"><label for="important">Was ist dir besonders wichtig?</label><input id="important" type="text" placeholder="z. B. sportlich, zuverlässig, Tuning-Potenzial"></div>
+<div class="field"><label for="fuel">Kraftstoff</label>
+<select id="fuel"><option value="">Egal</option><option>Benzin</option><option>Diesel</option><option>Hybrid</option><option>Elektro</option><option>Wasserstoff</option><option>Autogas</option></select>
+</div>
+<div class="field"><label for="gearbox">Getriebe</label>
+<select id="gearbox"><option value="">Egal</option><option>Automatik</option><option>Manuell</option></select>
+</div>
+<div class="field"><label for="body">Fahrzeugtyp</label>
+<select id="body"><option value="">Egal</option><option>Coupé</option><option>Limousine</option><option>Kombi</option><option>SUV</option><option>Sportwagen</option><option>Kleinwagen</option><option>Cabrio</option><option>Van</option><option>Pickup</option></select>
+</div>
+<div class="field"><label for="important">Besonders wichtig</label><input id="important" type="text" placeholder="z. B. sportlich, zuverlässig, Tuning-Potenzial"></div>
+
 </div>
 
-<button class="search" onclick="createSearch()">🔎 Echte Angebote suchen</button>
+<button class="search" onclick="createSearch()">🔎 Autos suchen</button>
 <button class="reset" onclick="resetForm()">Zurücksetzen</button>
 
-<div class="notice"><strong>So funktioniert es:</strong> CarCheck übernimmt deine Suchkriterien und erstellt daraus eine AutoScout24-Suche. Über den Button gelangst du direkt zu den passenden aktuellen Angeboten.</div>
+<div class="notice">
+<strong>Markenauswahl:</strong> Wenn du eine Marke auswählst, öffnet CarCheck die entsprechende AutoScout24-Markenübersicht. Bei „Beliebig“ werden keine Marke und damit Fahrzeuge aller Marken vorausgewählt. Die zusätzlichen Kriterien werden in CarCheck angezeigt und können auf AutoScout24 weiter verfeinert werden.
+</div>
 </section>
 
 <section class="card result" id="result">
 <h2>🔎 Deine Suche ist bereit</h2>
-<p class="subtitle">Wir haben deine Angaben übernommen.</p>
+<p class="subtitle" id="resultText"></p>
 <div class="result-box">
 <h3>Deine Suchkriterien</h3>
 <div class="criteria" id="criteria"></div>
-<p>Öffne die Suche, um aktuelle Fahrzeuge zu sehen, die zu deinen angegebenen Kriterien passen.</p>
+<p>Öffne die Suche, um die aktuellen Angebote auf AutoScout24 anzusehen.</p>
 <a id="searchLink" class="open" href="#" target="_blank" rel="noopener">Angebote auf AutoScout24 ansehen →</a>
 </div>
 </section>
 
 <section class="info-grid">
-<div class="info"><div class="icon">🎯</div><h3>Deine Wünsche</h3><p>Preis, Leistung, Baujahr, Kilometer, Marke und weitere Kriterien.</p></div>
-<div class="info"><div class="icon">🔎</div><h3>Echte Angebote</h3><p>Die Suche führt zu aktuellen Fahrzeugangeboten auf AutoScout24.</p></div>
-<div class="info"><div class="icon">🔗</div><h3>Direkter Link</h3><p>Ein Klick bringt dich direkt zur entsprechenden Fahrzeugsuche.</p></div>
+<div class="info"><div class="icon">🎯</div><h3>Marke auswählen</h3><p>Suche nach einer Marke oder wähle direkt einen Vorschlag aus.</p></div>
+<div class="info"><div class="icon">🌍</div><h3>Beliebig</h3><p>Mit „Beliebig“ werden Fahrzeuge aller Marken berücksichtigt.</p></div>
+<div class="info"><div class="icon">🔗</div><h3>Direkt zu AutoScout24</h3><p>CarCheck öffnet die passende AutoScout24-Suche.</p></div>
 </section>
+
 </main>
 
-<footer>CarCheck · Beta-Version<br><br>Die Ergebnisse dienen als erste Orientierung und ersetzen keine Probefahrt, Werkstattprüfung oder Fahrzeughistorie.</footer>
+<footer>
+CarCheck · Beta-Version<br><br>
+Die Ergebnisse dienen als erste Orientierung und ersetzen keine Probefahrt, Werkstattprüfung oder Fahrzeughistorie.
+</footer>
 
 <script>
+/*
+  Große Markenliste.
+  Die Liste orientiert sich an den aktuell auf AutoScout24 Deutschland
+  angezeigten Marken.
+*/
+const brands = [
+"9ff","Abarth","AC","ACM","Acura","Aerfal","Aiways","Aixam","Alba Mobility","Alfa Romeo","Alpina","Alpine",
+"Amphicar","Angelelli Automobili","ARIEL","Ariel Motor","Artega","Aspark","Aspid","Aston Martin","Audi","Aurus",
+"Austin","Austin-Healey","Autobianchi","BAIC","BAW","Bedford","Bellier","Bentley","Bertone","Bestune","BMW",
+"Boldmen","Bolloré","Borgward","Bovensiepen","Brilliance","Bristol","Brute","Bugatti","Buick","BYD","Cadillac",
+"Caravan-Wohnmobil","Carver","Casalini","Caterham","Cenntro","Chamonix","Changan","Changhe","Chatenet","Chery",
+"Chevrolet","Chrysler","Cirelli","Citroën","CityEL","Corvette","CUPRA","Dacia","Daewoo","DAF","Daihatsu",
+"Daimler","Dallara","Dangel","De la Chapelle","De Tomaso","Delorean","Denza","Devalliet","Devinci Cars","DFM",
+"DFSK","Dodge","Dongfeng","Donkervoort","DR Automobiles","DS Automobiles","Dutton","e.GO","Ebro","Econelo",
+"Edran","Elaris","Embuggy","EMC","Estrima","Evetta","EVO","Farizon","Ferrari","Fiat","firefly","Fisker","Ford",
+"Forthing","Foton","GAC","Gonow","Galloper","Gappy","GAZ","Geely","GEM","GEMBALLA","Genesis","Giana","Gillet",
+"Giotti Victoria","GMC","Goupil","Great Wall","Grecav","GTA","GWM","Haima","Hamann","Haval","Hiphi","Holden",
+"Honda","Hongqi","HUMMER","Hurtan","Hyundai","ICH-X","Ineos","Infiniti","Innocenti","Invicta","Isuzu","Iveco",
+"IZH","JAC","Jaecoo","Jaguar","Jeep","Jensen","Jetour","Karma","KGM","Kia","Koenigsegg","KTM","Lada","Lamborghini",
+"Lancia","Land Rover","LDV","Leapmotor","Lee Group","Lepas","LEVC","Lexus","Li","Lifan","Ligier","Lincoln",
+"Linktour","Linzda","Livan","Lorinser","Lotus","Lucid","Lynk & Co","Mahindra","MAN","Mansory","Martin","Martin Motors",
+"Maserati","Matra","Maxus","Maybach","Mazda","McLaren","Mega","Melex","Mercedes-Benz","Mercury","MG","MHERO",
+"Micro","Microcar","Militem","Minari","Minauto","MINI","Mitsubishi","Mitsuoka","Mobilize","Morgan","Moskvich",
+"MP Lafer","MPM Motors","NIO","Nissan","NSU","Oldsmobile","Oldtimer","Omoda","Opel","Ora","Pagani","Panther Westwinds",
+"Peugeot","PGO","Piaggio","Plymouth","Polestar","Pontiac","Porsche","Proton","Puch","RAM","Regis","Reliant","Renault",
+"Rimac","Rivian","Rolls-Royce","Rover","Ruf","Saab","Santana","SEAT","Segway","Selvo","Seres","Sevic","SGS","Shelby",
+"Shuanghuan","Silence","Simplici","Singer","Skoda","Skywell","smart","SpeedArt","Sportequipe","Spyker","SsangYong",
+"Stormborn","StreetScooter","Studebaker","Subaru","Sunbeam","Suzuki","SWM","Talbot","Tasso","Tata","Tazzari",
+"TECHART","Tesla","Tiger","Togg","Town Life","Toyota","Trabant","Trailer-Anhänger","Triumph","Trucks-Lkw","TVR",
+"TYN-e","UAZ","Vanden Plas","Vanderhall","VAZ","VEM","Venucia","VinFast","Volkswagen","Volvo","Voyah","Wartburg",
+"Weltmeister","Wenckstern","Westfield","Wey","Wiesmann","XBus","XEV","Xiaomi","Xpeng","Zastava","ZAZ","Zeekr",
+"Zhidou","Zotye","Sonstige"
+];
+
+let selectedBrand = "";
+
+const brandInput = document.getElementById("brandSearch");
+const suggestions = document.getElementById("suggestions");
+const anyButton = document.getElementById("anyButton");
+
+brandInput.addEventListener("input", () => {
+    selectedBrand = "";
+    anyButton.classList.remove("active");
+    showSuggestions(brandInput.value);
+});
+
+brandInput.addEventListener("focus", () => {
+    showSuggestions(brandInput.value);
+});
+
+document.addEventListener("click", (event) => {
+    if(!event.target.closest(".brand-wrap")){
+        suggestions.style.display = "none";
+    }
+});
+
+function showSuggestions(searchText){
+    const query = searchText.trim().toLowerCase();
+
+    let matches = brands.filter(brand =>
+        brand.toLowerCase().includes(query)
+    );
+
+    if(!query){
+        matches = brands.slice(0, 35);
+    }
+
+    suggestions.innerHTML = "";
+
+    if(matches.length === 0){
+        suggestions.innerHTML = '<div style="padding:12px;color:#777">Keine Marke gefunden.</div>';
+        suggestions.style.display = "block";
+        return;
+    }
+
+    matches.slice(0, 60).forEach(brand => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "suggestion";
+        button.innerHTML = highlightMatch(brand, query);
+        button.onclick = () => selectBrand(brand);
+        suggestions.appendChild(button);
+    });
+
+    suggestions.style.display = "block";
+}
+
+function highlightMatch(text, query){
+    if(!query) return text;
+    const index = text.toLowerCase().indexOf(query);
+    if(index === -1) return text;
+    return text.slice(0,index) +
+        "<strong>" + text.slice(index,index+query.length) + "</strong>" +
+        text.slice(index+query.length);
+}
+
+function selectBrand(brand){
+    selectedBrand = brand;
+    brandInput.value = brand;
+    suggestions.style.display = "none";
+    anyButton.classList.remove("active");
+}
+
+function selectAny(){
+    selectedBrand = "";
+    brandInput.value = "Beliebig";
+    anyButton.classList.add("active");
+    suggestions.style.display = "none";
+}
+
+function slugifyBrand(brand){
+    const special = {
+        "Mercedes-Benz":"mercedes-benz",
+        "Alfa Romeo":"alfa-romeo",
+        "Aston Martin":"aston-martin",
+        "Land Rover":"land-rover",
+        "Rolls-Royce":"rolls-royce",
+        "DS Automobiles":"ds-automobiles",
+        "Lynk & Co":"lynk-co",
+        "Mini":"mini",
+        "MINI":"mini",
+        "Citroën":"citroen",
+        "Skoda":"skoda",
+        "Volkswagen":"volkswagen",
+        "Seat":"seat",
+        "SEAT":"seat",
+        "Toyota":"toyota",
+        "BMW":"bmw",
+        "Audi":"audi",
+        "Ford":"ford",
+        "Opel":"opel",
+        "Porsche":"porsche",
+        "Nissan":"nissan",
+        "Honda":"honda",
+        "Hyundai":"hyundai",
+        "Kia":"kia",
+        "Mazda":"mazda",
+        "Tesla":"tesla",
+        "Volvo":"volvo",
+        "Renault":"renault",
+        "Peugeot":"peugeot",
+        "Fiat":"fiat",
+        "Dacia":"dacia",
+        "Lamborghini":"lamborghini",
+        "Ferrari":"ferrari",
+        "Jaguar":"jaguar",
+        "Jeep":"jeep",
+        "Subaru":"subaru",
+        "Suzuki":"suzuki",
+        "Mitsubishi":"mitsubishi"
+    };
+
+    if(special[brand]) return special[brand];
+
+    return brand.toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .replace(/&/g,"-")
+        .replace(/[^a-z0-9]+/g,"-")
+        .replace(/^-|-$/g,"");
+}
+
 function createSearch(){
     const price=document.getElementById("price").value;
     const power=document.getElementById("power").value;
     const year=document.getElementById("year").value;
     const mileage=document.getElementById("mileage").value;
-    const brand=document.getElementById("brand").value.trim();
     const fuel=document.getElementById("fuel").value;
     const gearbox=document.getElementById("gearbox").value;
     const body=document.getElementById("body").value;
     const important=document.getElementById("important").value.trim();
 
-    const params=new URLSearchParams();
+    /*
+      AutoScout24 verwendet für Marken eigene Markenkennungen/URLs.
+      Die Markenübersicht über /lst/<marke> ist deshalb zuverlässiger
+      als einfach "make=BMW" als Text zu übergeben.
+    */
+    let url = "https://www.autoscout24.de/lst";
+
+    if(selectedBrand){
+        url += "/" + encodeURIComponent(slugifyBrand(selectedBrand));
+    }
+
+    /*
+      Zusätzliche Kriterien werden als Suchparameter angehängt.
+      AutoScout24 kann die Suchseite anschließend weiter verfeinern.
+    */
+    const params = new URLSearchParams();
 
     if(price) params.set("priceto",price);
-    if(mileage) params.set("mileageto",mileage);
+    if(mileage) params.set("milesTo",mileage);
     if(year) params.set("fregfrom",year);
 
     if(power){
@@ -108,29 +328,34 @@ function createSearch(){
         params.set("powerfrom",kw);
     }
 
-    if(brand) params.set("make",brand);
-    if(important) params.set("text",important);
-    if(body) params.set("body",body);
     if(fuel) params.set("fuel",fuel);
     if(gearbox) params.set("gear",gearbox);
+    if(body) params.set("body",body);
 
-    const url="https://www.autoscout24.de/lst?"+params.toString();
+    if(params.toString()){
+        url += "?" + params.toString();
+    }
 
     const criteria=document.getElementById("criteria");
     criteria.innerHTML="";
 
-    addTag(criteria,price?"Bis "+Number(price).toLocaleString("de-DE")+" €":"Preis egal");
-    addTag(criteria,power?"Ab "+power+" PS":"Leistung egal");
-    addTag(criteria,year?"Ab Baujahr "+year:"Baujahr egal");
-    addTag(criteria,mileage?"Bis "+Number(mileage).toLocaleString("de-DE")+" km":"Kilometer egal");
-
-    if(brand) addTag(criteria,brand);
+    addTag(criteria, selectedBrand ? selectedBrand : "Alle Marken");
+    addTag(criteria, price ? "Bis "+Number(price).toLocaleString("de-DE")+" €" : "Preis egal");
+    addTag(criteria, power ? "Ab "+power+" PS" : "Leistung egal");
+    addTag(criteria, year ? "Ab Baujahr "+year : "Baujahr egal");
+    addTag(criteria, mileage ? "Bis "+Number(mileage).toLocaleString("de-DE")+" km" : "Kilometer egal");
     if(fuel) addTag(criteria,fuel);
     if(gearbox) addTag(criteria,gearbox);
     if(body) addTag(criteria,body);
     if(important) addTag(criteria,important);
 
     document.getElementById("searchLink").href=url;
+
+    document.getElementById("resultText").textContent =
+        selectedBrand
+        ? "Du hast " + selectedBrand + " ausgewählt."
+        : "Du hast „Beliebig“ ausgewählt – es wird keine bestimmte Marke vorausgewählt.";
+
     document.getElementById("result").style.display="block";
 
     document.getElementById("result").scrollIntoView({
@@ -147,7 +372,7 @@ function addTag(container,text){
 }
 
 function resetForm(){
-    ["price","power","year","mileage","brand","important"].forEach(id=>{
+    ["price","power","year","mileage","important"].forEach(id=>{
         document.getElementById(id).value="";
     });
 
@@ -155,8 +380,13 @@ function resetForm(){
         document.getElementById(id).value="";
     });
 
+    selectedBrand="";
+    brandInput.value="";
+    anyButton.classList.remove("active");
+    suggestions.style.display="none";
     document.getElementById("result").style.display="none";
 }
 </script>
+
 </body>
 </html>
